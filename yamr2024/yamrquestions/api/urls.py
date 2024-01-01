@@ -8,5 +8,8 @@ router.register(r'questions', yqv.YamrQuestionViewSet)
 # The r before the string in r'questions' is a flag indicating that the string is a raw string in Python.
 
 urlpatterns = [
-    path("", include(router.urls))
+    path("", include(router.urls)),
+
+    path("questions/<slug:slug>/answer/",
+         yqv.YamrAnswerCreateAPIView.as_view(), name="answer-create"),
 ]
