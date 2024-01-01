@@ -33,3 +33,18 @@ Content-Type: application/json
 ### Logout
 POST {{host}}/auth/token/logout/
 Authorization: Token {{token}}
+
+
+### Create new question
+POST {{host}}/api/v1/questions/
+Content-Type: application/json
+Authorization: Token {{token}}
+
+{
+    "content": "Is this question the best test one ever asked!?"
+}
+
+
+### Get question list
+GET {{host}}/api/v1/questions/
+Authorization: Token {{token}}

@@ -19,4 +19,7 @@ urlpatterns = [
     path("answers/<uuid:uuid>/",
             yqv.YamrAnswerRUDAPIView.as_view(), name="answer-detail"),
 
+    path("answers/<uuid:uuid>/like/",
+            yqv.AnswerLikeAPIView.as_view(), name="answer-like"),
+
 ]
