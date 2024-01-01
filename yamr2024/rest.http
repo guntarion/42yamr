@@ -1,0 +1,35 @@
+# To be used with the "REST Client" VS Code extension by Huachao Mao
+# https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+### Variables
+@host=http://127.0.0.1:8000
+@username=baru
+@email=baru@account.com
+@password=Legion5pro
+@token=86c82731ee24e9e8fa44ab2796133550ac8c3371
+# login to get token
+
+
+### Create new account
+POST {{host}}/auth/users/
+Content-Type: application/json
+
+{
+    "username": "{{username}}",
+    "email": "{{email}}",
+    "password": "{{password}}",
+    "re_password": "{{password}}"
+}
+
+### Login
+POST {{host}}/auth/token/login/
+Content-Type: application/json
+
+{
+    "username": "{{username}}",
+    "password": "{{password}}"
+}
+
+### Logout
+POST {{host}}/auth/token/logout/
+Authorization: Token {{token}}
