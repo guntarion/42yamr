@@ -10,6 +10,13 @@ router.register(r'questions', yqv.YamrQuestionViewSet)
 urlpatterns = [
     path("", include(router.urls)),
 
+    path("questions/<slug:slug>/answers/",
+            yqv.YamrAnswerListAPIView.as_view(), name="answer-list"),
+
     path("questions/<slug:slug>/answer/",
          yqv.YamrAnswerCreateAPIView.as_view(), name="answer-create"),
+
+    path("answers/<uuid:uuid>/",
+            yqv.YamrAnswerRUDAPIView.as_view(), name="answer-detail"),
+
 ]
