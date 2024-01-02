@@ -35,7 +35,7 @@ export default {
       let endpoint = '/api/v1/questions/';
       try {
         let response = await axios.get(endpoint);
-        // console.log(response);
+        console.log(response);
         this.questions = response.data;
         console.log(this.questions);
       } catch (error) {

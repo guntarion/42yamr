@@ -154,6 +154,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'core.pagination.PageNumberPaginationNoCount',
+    # The "NoCount" pagination class is used to remove the "count" field - to avoid counting the total number of records, which can be a costly operation for large datasets.
+    'PAGE_SIZE': 5
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
