@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'corsheaders',
+
     'django_registration',
     'djoser',
     'widget_tweaks',
@@ -57,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'yamr2024.urls'
@@ -152,3 +156,4 @@ REST_FRAMEWORK = {
     ),
 }
 
+CORS_ALLOW_ALL_ORIGINS = True

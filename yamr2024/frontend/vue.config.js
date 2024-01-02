@@ -15,8 +15,9 @@ Settings Options:
 https://cli.vuejs.org/config/
 https://v4.webpack.js.org/configuration/dev-server/
 https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md
-*/
 
+https://github.com/pymike00/QuestionTime/blob/legacy-v3/QuestionTime/frontend/vue.config.js
+*/
 module.exports = {
   publicPath:
     process.env.NODE_ENV === "production"
@@ -32,7 +33,7 @@ module.exports = {
   },
   devServer: {
     devMiddleware: {
-      publicPath: "http://127.0.0.1:8080",
+      publicPath: "/",
       writeToDisk: (filePath) => filePath.endsWith("index.html"),
     },
     hot: "only",

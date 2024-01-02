@@ -12,7 +12,7 @@ from yamrquestions.api.permissions import IsAuthorOrReadOnly
 class YamrQuestionViewSet(viewsets.ModelViewSet):
     queryset = YamrQuestion.objects.all().order_by('-created_at')
     serializer_class = YamrQuestionSerializer
-    permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
+    # permission_classes = [IsAuthenticated, IsAuthorOrReadOnly]
     lookup_field = 'slug'
 
     def perform_create(self, serializer):
