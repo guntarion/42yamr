@@ -10,7 +10,9 @@
           <div class="card shadow p-3 mb-4 bg-body rounded">
             <div class="card-body">
               <p class="card-title">Posted by: <span class="question-author">{{ question.author }}</span></p>
-              <h5 class="card-text">{{ question.content }}</h5>
+              <router-link :to="{ name: 'question', params: { slug: question.slug } }" class="question-link">
+                <h5 class="card-title">{{ question.content }}</h5>
+              </router-link>
               <p class="mb-2">Answers: {{ question.yamr_answers_count }}</p>
               <a href="#" class="btn btn-primary">Go somewhere</a>
             </div>
@@ -70,6 +72,7 @@ export default {
     }
   },
   created () {
+    document.title = 'YAMR';
     console.log('HomeView created... lifecycle hook');
     this.getQuestions();
   }
