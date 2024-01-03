@@ -34,5 +34,5 @@ urlpatterns = [
 
     path("api/v1/", include("yamrquestions.api.urls")),
 
-    re_path(r"^.*$", IndexTemplateView.as_view(), name="spa-entry-point"),
+    re_path(r"^.*$", IndexTemplateView.as_view(), name="spa-entry-point"), # this is used to serve the vue frontend
 ]
