@@ -4,6 +4,29 @@
             <h2>{{ question.content }}</h2>
             <p>Posted by: <span class="author-name">{{ question.author }}</span></p>
             <p>{{ question.created_at }}</p>
+
+            <div v-if="userHasAnswered">
+                <p class="answer-text">You have answered this question</p>
+            </div>
+            <div v-else-if="showForm">
+                <form @submit.prevent="onSubmit">
+                    <p>Answer the Question</p>
+                    <div class="mb-3">
+                        <label for="answer" class="form-label">Answer</label>
+                        <textarea v-model="newAnswerBody" class="form-control" placeholder="your answer"
+                            rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button class="btn btn-danger" @click="showForm = false">Cancel</button>
+                </form>
+                <p v-if="error" class="error mt-2">{{ error }}</p>
+            </div>
+            <div v-else>
+                <button class="btn btn-success" @click="showForm = true">
+                    Answer this question
+                </button>
+            </div>
+
             <hr>
         </div>
         <div v-else>
@@ -42,7 +65,11 @@ export default {
             question: [],
             answers: [],
             next: null,
-            loadingAnswer: false
+            loadingAnswer: false,
+            userHasAnswered: false,
+            showForm: false,
+            newAnswerBody: '',
+            error: null
         }
     },
     methods: {
@@ -87,7 +114,32 @@ export default {
                 console.log(error.response);
                 alert(error.response.statusText);
             }
-        }
+        },
+        async onSubmit() {
+            // Tell the REST API to create a new answer for this question
+            // based on the user input, then update some data properties
+            if (!this.newAnswerBody) {
+                this.error = "You can't send an empty answer!";
+                return;
+            }
+            const endpoint = `/api/v1/questions/${this.slug}/answer/`;
+            try {
+                const response = await axios.post(endpoint, {
+                    yamrbody: this.newAnswerBody,
+                });
+                this.answers.unshift(response.data);
+                // unlike the push method which adds elements to the end of an array, unshift adds elements to the beginning.
+                this.newAnswerBody = null;
+                this.showForm = false;
+                this.userHasAnswered = true;
+                if (this.error) {
+                    this.error = null;
+                }
+            } catch (error) {
+                console.log(error.response);
+                alert(error.response.statusText);
+            }
+        },
     },
     created() {
         console.log('QuestionView created... lifecycle hook');
@@ -106,5 +158,10 @@ export default {
 
 .error {
     color: #dc3545;
+}
+
+.answer-text {
+    font-weight: bold;
+    color: #17b993;
 }
 </style>
