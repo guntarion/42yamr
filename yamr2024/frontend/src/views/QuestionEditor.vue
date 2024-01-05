@@ -2,12 +2,8 @@
     <div class="container mt-2">
         <h1 class="mb-3">Ask a Question</h1>
         <form @submit.prevent="onSubmit">
-            <textarea 
-                v-model="questionBody"
-                class="form-control" 
-                placeholder="What do you want to ask?"
-                rows="3"
-            ></textarea>
+            <textarea v-model="questionBody" class="form-control" placeholder="What do you want to ask?"
+                rows="3"></textarea>
             <button type="submit" class="btn btn-success mt-3">Publish</button>
         </form>
         <p v-if="error" class="error mt-2">{{ error }}</p>
@@ -32,7 +28,7 @@ export default {
             } else if (this.questionBody.length > 240) {
                 this.error = "Ensure this field has no more than 240 characters!";
             } else {
-                this.performNetworkRequest(); 
+                this.performNetworkRequest();
                 // call the function that will make the network request, this is the function that will make the POST request to the API
             }
         },
@@ -40,6 +36,7 @@ export default {
             // Tell the REST API to create or update a Question instance;
             let endpoint = "/api/v1/questions/";
             let method = "POST";
+            // if the component is used to update a question, taken from beforeRouteEnter
             if (this.slug !== undefined && this.slug !== "") {
                 endpoint += `${this.slug}/`;
                 method = "PUT";
@@ -58,8 +55,25 @@ export default {
                 this.error = error.response.statusText;
             }
         },
-        
-
-    }
+    },
+    created() {
+        document.title = "Editor - QuestionTime";
+    },
+    async beforeRouteEnter(to, from, next) {
+        // if the component is used to update a question
+        // get the question's data from the REST API
+        if (to.params.slug !== undefined && to.params.slug !== "") {
+            const endpoint = `/api/v1/questions/${to.params.slug}/`;
+            try {
+                const response = await axios.get(endpoint);
+                return next((vm) => (vm.questionBody = response.data.content));
+            } catch (error) {
+                console.log(error.response);
+                alert(error.response.statusText);
+            }
+        } else {
+            return next();
+        }
+    },
 }
 </script>
