@@ -41,6 +41,7 @@
             :key="answer.uuid" 
             :answer="answer"
             :requestUser="requestUser" 
+            @delete-answer="deleteAnswer"
             />
         </div>
 
@@ -73,7 +74,7 @@ export default {
     data() {
         return {
             question: '',
-            answers: [],
+            answers: [], // an array of answers - this must be an array because the API returns a list of answers
             next: null,
             loadingAnswer: false,
             userHasAnswered: false,
@@ -160,6 +161,20 @@ export default {
         setRequestUser() {
             // the username has been set to localStorage by the App.vue component
             this.requestUser = window.localStorage.getItem("username");
+        },
+        async deleteAnswer(answer) {
+            // delete a given answer from the answers array and make a delete request to the REST API
+            const endpoint = `/api/v1/answers/${answer.uuid}/`;
+            try {
+                await axios.delete(endpoint);
+                this.answers.splice(this.answers.indexOf(answer), 1);
+                //  splice() modifies the array in place and returns a new array containing the elements that were removed. 
+                // If you don't want to modify the original array, you might want to use a different method, like filter().
+                this.userHasAnswered = false;
+            } catch (error) {
+                console.log(error.response);
+                alert(error.response.statusText);
+            }
         },
     },
     created() {
