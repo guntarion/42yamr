@@ -5,6 +5,8 @@
             <p>Posted by: <span class="author-name">{{ question.author }}</span></p>
             <p>{{ question.created_at }}</p>
 
+            <QuestionActions v-if="isQuestionAuthor" :slug="question.slug" />
+
             <div v-if="userHasAnswered">
                 <p class="answer-text">You have answered this question</p>
             </div>
@@ -49,6 +51,8 @@
 <script>
 import { axios } from '@/common/api.service.js'
 import AnswerComponent from '@/components/Answer.vue'
+import QuestionActions from '@/components/QuestionActions.vue'
+
 export default {
     name: 'QuestionView',
     props: {
@@ -58,7 +62,8 @@ export default {
         },
     },
     components: {
-        AnswerComponent
+        AnswerComponent,
+        QuestionActions
     },
     data() {
         return {
@@ -71,6 +76,12 @@ export default {
             newAnswerBody: '',
             error: null
         }
+    },
+    computed: {
+        isQuestionAuthor() {
+            // return true if the logged in user is also the author of the question instance
+            return this.question.author === this.requestUser;
+        },
     },
     methods: {
         setPageTitle(title) {
@@ -140,11 +151,16 @@ export default {
                 alert(error.response.statusText);
             }
         },
+        setRequestUser() {
+            // the username has been set to localStorage by the App.vue component
+            this.requestUser = window.localStorage.getItem("username");
+        },
     },
     created() {
         console.log('QuestionView created... lifecycle hook');
         this.getQuestionData();
         this.getQuestionAnswer();
+        this.setRequestUser();
     }
 
 }

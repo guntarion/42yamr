@@ -1,25 +1,44 @@
 <template>
-  <nav>
+  <div id="nav">
     <NavbarComponent />
-  </nav>
-  <router-view/>
+  </div>
+  <router-view />
 </template>
 
 <script>
-import NavbarComponent from '@/components/Navbar.vue';
+import { axios } from "@/common/api.service.js";
+import NavbarComponent from "@/components/Navbar.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    NavbarComponent
-  }
-}
-
+    NavbarComponent,
+  },
+  methods: {
+    async setUserInfo() {
+      // add the username of the current user to localStorage
+      try {
+        const response = await axios.get("/auth/users/me/");
+        const requestUser = response.data["username"];
+        window.localStorage.setItem("username", requestUser);
+      } catch (error) {
+        console.log(error.response);
+        alert(error.response.statusText);
+      }
+    },
+  },
+  created() {
+    this.setUserInfo();
+  },
+};
 </script>
 
-
 <style>
-  body {
-    font-family: "Noto Sans JP", sans-serif;
-    font-weight: 300;
-  }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 300;
+}
+
+.btn:focus {
+  box-shadow: none !important;
+}
 </style>
