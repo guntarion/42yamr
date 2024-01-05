@@ -36,7 +36,12 @@
         </div>
 
         <div v-if="question">
-            <AnswerComponent v-for="answer in answers" :key="answer.uuid" :answer="answer" />
+            <AnswerComponent 
+            v-for="answer in answers" 
+            :key="answer.uuid" 
+            :answer="answer"
+            :requestUser="requestUser" 
+            />
         </div>
 
         <div class="my-4">
@@ -67,14 +72,15 @@ export default {
     },
     data() {
         return {
-            question: [],
+            question: '',
             answers: [],
             next: null,
             loadingAnswer: false,
             userHasAnswered: false,
             showForm: false,
-            newAnswerBody: '',
-            error: null
+            newAnswerBody: null,
+            error: null,
+            requestUser: null,
         }
     },
     computed: {

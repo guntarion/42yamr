@@ -21,7 +21,18 @@ const routes = [
     path: "/ask/:slug?", // with ? slug is optional
     name: "question-editor",
     component: () =>
-      import(/* webpackChunkName: "question-editor" */ "../views/QuestionEditor.vue"),
+      import(
+        /* webpackChunkName: "question-editor" */ "../views/QuestionEditor.vue"
+      ),
+  },
+  {
+    path: "/answer/:uuid",
+    name: "answer-editor",
+    component: () =>
+      import(
+        /* webpackChunkName: "answer-editor" */ "../views/AnswerEditor.vue"
+      ),
+    props: true,
   },
 ];
 
