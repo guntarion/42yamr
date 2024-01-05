@@ -34,6 +34,12 @@ const routes = [
       ),
     props: true,
   },
+  {
+    path: "/:catchAll(.*)",
+    name: "page-not-found",
+    component: () =>
+      import(/* webpackChunkName: "not-found" */ "../views/NotFound.vue"),
+  },
 ];
 
 const router = createRouter({
